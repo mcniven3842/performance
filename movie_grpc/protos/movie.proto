@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+service Movie {
+    rpc GetMovieByID(MovieID) returns (MovieData) {}
+    rpc GetMoviesFiltered(RatingFilter) returns (stream MovieData) {}
+    rpc GetListMovies(Empty) returns (stream MovieData) {}
+    rpc GetMovieByTitle(Title) returns (MovieData) {}
+    rpc CreateMovie(MovieData) returns (FeedbackMessage) {}
+    rpc UpdateMovieRating(RatingUpdate) returns (FeedbackMessage) {}
+    rpc RemoveMovie(MovieID) returns (FeedbackMessage) {}
+}
+
+message MovieID {
+    string id = 1;
+}
+
+message Title {
+    string title = 1;
+}
+
+message MovieData {
+    string title = 1;
+    float rating = 2;
+    string director = 3;
+    string id = 4;
+}
+
+message FeedbackMessage {
+    string message = 1;
+    MovieData movie = 2;
+}
+
+message RatingFilter {
+    float rating = 1;
+}
+
+message RatingUpdate {
+    oneof id_or_title {
+        string id = 2;
+        string title = 3;
+    }
+    float rating = 1;
+}
+
+message Empty {
+}

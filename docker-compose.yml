@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  movie_rest:
+    build: ./movie_rest/
+    ports:
+      - "3200:3200"
+  movie_grpc:
+    build: ./movie_grpc/
+    ports:
+      - "3001:3001"
+  movie_graphql:
+    build: ./movie_graphql/
+    ports:
+      - "3301:3301"
+  plot_comparison:
+    build: ./tests/
+    depends_on:
+      - movie_rest
+      - movie_grpc
+      - movie_graphql
+    volumes:
+      - ./results:/app/results
